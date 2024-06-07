@@ -108,14 +108,27 @@ export class ChatbotService {
   async searchProducts(query: string): Promise<string> {
     try {
       const products = await this.readCSVFile('data/products_list.csv');
-      const filteredProducts = products
-        .filter(product => product.displayTitle && product.displayTitle.toLowerCase().includes(query.toLowerCase()))
-        .slice(0, 2);
-      return JSON.stringify(filteredProducts);
+      const filteredProducts = this.filterProducts(products, query);
+      return JSON.stringify(filteredProducts.slice(0, 2));
     } catch (error) {
       console.error('Error reading CSV file:', error);
       throw new HttpException('Error reading CSV file', HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  /**
+   * Filters products based on the query.
+   * @param products - The array of products.
+   * @param query - The search query.
+   * @returns An array of filtered products.
+   */
+  private filterProducts(products: any[], query: string): any[] {
+    const queryTerms = query.toLowerCase().split(/\s+/);
+
+    return products.filter(product => {
+      const combinedText = `${product.displayTitle} ${product.embeddingText} ${product.productType}`.toLowerCase();
+      return queryTerms.some(term => combinedText.includes(term));
+    });
   }
 
   /**
