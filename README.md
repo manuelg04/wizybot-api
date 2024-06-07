@@ -1,10 +1,9 @@
 # wizybot-api
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 
   <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
     <p align="center">
@@ -30,7 +29,7 @@
 ## Installation
 
 ```bash
-$ npm install
+npm install
 ```
 
 ## Running the app
@@ -58,6 +57,43 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## Api Usage
+
+Endpoint: /chatbot
+Request
+Method: POST
+URL: <http://localhost:3000/chatbot>
+Headers:
+Content-Type: application/json
+Body:
+{
+  "userEnquiry": "Your question here"
+}
+Request Examples:
+
+- Search for a product
+
+curl --location '<http://localhost:3000/chatbot>' \
+--header 'Content-Type: application/json' \
+--data '{
+    "userEnquiry": "I am looking for a phone"
+}'
+
+- Convert Currencies:
+
+curl --location '<http://localhost:3000/chatbot>' \
+--header 'Content-Type: application/json' \
+--data '{
+    "userEnquiry": "How many Canadian Dollars are 350 Euros"
+}'
+
+Configuration:
+
+Make sure to have a .env file in the root of the project with the following variables:
+
+OPENAI_API_KEY_WIZZYBOT=your_openai_api_key_here
+OPEN_EXCHANGE_API_KEY=your_open_exchange_api_key_here
 
 ## Support
 
